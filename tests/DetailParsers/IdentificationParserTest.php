@@ -2,11 +2,20 @@
 
 namespace Codelicious\Tests\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\Raw\Identification;
+
 class IdentificationParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testSample1()
     {
-        $parser = new \Codelicious\Coda\DetailParsers\IdentificationParser();
+		$factory = $this->getMock('Codelicious\Coda\Data\RawDataFactory');
+		$factory
+			->expects($this->once())
+			->method('createDataObject')
+			->will($this->returnValue(new Identification()))
+		;
+
+        $parser = new \Codelicious\Coda\DetailParsers\IdentificationParser($factory);
 
         $sample = "0000018011520105        0938409934CODELICIOUS               GEBABEBB   09029308273 00001          984309          834080       2";
 

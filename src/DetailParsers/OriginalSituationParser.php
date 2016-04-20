@@ -2,6 +2,8 @@
 
 namespace Codelicious\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\DataFactory;
+
 /**
  * @package Codelicious\Coda
  * @author Wim Verstuyf (wim.verstuyf@codelicious.be)
@@ -10,6 +12,20 @@ namespace Codelicious\Coda\DetailParsers;
 class OriginalSituationParser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * OriginalSituationParser constructor.
+	 * @param DataFactory $dataFactory
+     */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Parse the given string containing 1 into an OriginalSituation-object
 	 *
 	 * @param string $coda1_line
@@ -17,8 +33,8 @@ class OriginalSituationParser implements ParserInterface
 	 */
 	public function parse($coda1_line)
 	{
-		$coda1 = new \Codelicious\Coda\Data\Raw\OriginalSituation();
-		
+		$coda1 = $this->dataFactory->createDataObject(DataFactory::ORIGINAL_SITUATION);
+
 		$coda1->account_number_type = substr($coda1_line, 1, 1);
 		$coda1->statement_sequence_number = trim(substr($coda1_line, 2, 3));
 

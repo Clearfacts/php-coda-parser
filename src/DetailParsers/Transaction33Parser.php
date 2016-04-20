@@ -1,6 +1,7 @@
 <?php
 
 namespace Codelicious\Coda\DetailParsers;
+use Codelicious\Coda\Data\DataFactory;
 
 /**
  * @package Codelicious\Coda
@@ -10,6 +11,18 @@ namespace Codelicious\Coda\DetailParsers;
 class Transaction33Parser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param DataFactory $dataFactory
+	 */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+	/**
 	 * Parse the given string containing 33 into a Transaction33-object
 	 *
 	 * @param string $coda33_line
@@ -17,8 +30,8 @@ class Transaction33Parser implements ParserInterface
 	 */
 	public function parse($coda33_line)
 	{
-		$coda33 = new \Codelicious\Coda\Data\Raw\Transaction33();
-		
+		$coda33 = $this->dataFactory->createDataObject(DataFactory::TRANSACTION33);
+
 		$coda33->sequence_number = trim(substr($coda33_line, 2, 4));
 		$coda33->sequence_number_detail = trim(substr($coda33_line, 6, 4));
 		$coda33->message = trim_space(substr($coda33_line, 10, 90));

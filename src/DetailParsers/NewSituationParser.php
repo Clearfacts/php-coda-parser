@@ -1,6 +1,7 @@
 <?php
 
 namespace Codelicious\Coda\DetailParsers;
+use Codelicious\Coda\Data\DataFactory;
 
 /**
  * @package Codelicious\Coda
@@ -10,6 +11,18 @@ namespace Codelicious\Coda\DetailParsers;
 class NewSituationParser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param DataFactory $dataFactory
+	 */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+	/**
 	 * Parse the given string containing 8 into an NewSituation-object
 	 *
 	 * @param string $coda8_line
@@ -17,7 +30,7 @@ class NewSituationParser implements ParserInterface
 	 */
 	public function parse($coda8_line)
 	{
-		$coda8 = new \Codelicious\Coda\Data\Raw\NewSituation();
+		$coda8 = $this->dataFactory->createDataObject(DataFactory::NEW_SITUATION);
 
 		$this->add_account_info($coda8, substr($coda8_line, 4, 37));
 		$coda8->statement_sequence_number = trim(substr($coda8_line, 1, 3));

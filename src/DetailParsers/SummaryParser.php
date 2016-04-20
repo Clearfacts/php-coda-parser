@@ -1,6 +1,7 @@
 <?php
 
 namespace Codelicious\Coda\DetailParsers;
+use Codelicious\Coda\Data\DataFactory;
 
 /**
  * @package Codelicious\Coda
@@ -10,6 +11,19 @@ namespace Codelicious\Coda\DetailParsers;
 class SummaryParser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param DataFactory $dataFactory
+     */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Parse the given string containing 9 into a Summary-object
 	 *
 	 * @param string $coda9_line
@@ -17,8 +31,8 @@ class SummaryParser implements ParserInterface
 	 */
 	public function parse($coda9_line)
 	{
-		$coda9 = new \Codelicious\Coda\Data\Raw\Summary();
-		
+		$coda9 = $this->dataFactory->createDataObject(DataFactory::SUMMARY);
+
 		$coda9->debet_amount = substr($coda9_line, 22, 15)*1/1000; // taken from the account (=debetomzet)
 		$coda9->credit_amount = substr($coda9_line, 37, 15)*1/1000; // added to the account (=creditomzet)
 

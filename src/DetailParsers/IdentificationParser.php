@@ -2,6 +2,8 @@
 
 namespace Codelicious\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\DataFactory;
+
 /**
  * @package Codelicious\Coda
  * @author Wim Verstuyf (wim.verstuyf@codelicious.be)
@@ -10,6 +12,20 @@ namespace Codelicious\Coda\DetailParsers;
 class IdentificationParser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * IdentificationParser constructor.
+	 * @param DataFactory $dataFactory
+	 */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Parse the given string containing 0 into an identification-object
 	 *
 	 * @param string $coda0_line
@@ -17,7 +33,7 @@ class IdentificationParser implements ParserInterface
 	 */
 	public function parse($coda0_line)
 	{
-		$coda0 = new \Codelicious\Coda\Data\Raw\Identification();
+		$coda0 = $this->dataFactory->createDataObject(DataFactory::IDENTIFICATION);
 
 		$coda0->creation_date = "20" . substr($coda0_line, 9, 2) . "-" . substr($coda0_line, 7, 2) . "-" . substr($coda0_line, 5, 2);
 		$coda0->bank_identification_number = trim(substr($coda0_line, 11, 3));
@@ -31,7 +47,7 @@ class IdentificationParser implements ParserInterface
 		$coda0->transaction_reference = trim(substr($coda0_line, 88, 16));
 		$coda0->related_reference = trim(substr($coda0_line, 104, 16));
 		$coda0->version_code = trim(substr($coda0_line, 127, 1));
-		
+
 		return $coda0;
 	}
 

@@ -3,6 +3,7 @@
 namespace Codelicious\Coda;
 
 use Codelicious\Coda\Data\Raw;
+use Codelicious\Coda\Data\RawDataFactory;
 use Codelicious\Coda\DetailParsers;
 use Codelicious\Coda\Transformation\TransformationInterface;
 use Codelicious\Coda\Transformation\TransformToSimple;
@@ -102,22 +103,29 @@ class Parser
 	{
 		if (empty($this->_detailParsers))
 		{
+			$rawDataFactory = $this->createRawDataFactory();
+
 			$this->_detailParsers = array(
-				new DetailParsers\IdentificationParser(),
-				new DetailParsers\OriginalSituationParser(),
-				new DetailParsers\Transaction21Parser(),
-				new DetailParsers\Transaction22Parser(),
-				new DetailParsers\Transaction23Parser(),
-				new DetailParsers\Transaction31Parser(),
-				new DetailParsers\Transaction32Parser(),
-				new DetailParsers\Transaction33Parser(),
-				new DetailParsers\MessageParser(),
-				new DetailParsers\NewSituationParser(),
-				new DetailParsers\SummaryParser(),
+				new DetailParsers\IdentificationParser($rawDataFactory),
+				new DetailParsers\OriginalSituationParser($rawDataFactory),
+				new DetailParsers\Transaction21Parser($rawDataFactory),
+				new DetailParsers\Transaction22Parser($rawDataFactory),
+				new DetailParsers\Transaction23Parser($rawDataFactory),
+				new DetailParsers\Transaction31Parser($rawDataFactory),
+				new DetailParsers\Transaction32Parser($rawDataFactory),
+				new DetailParsers\Transaction33Parser($rawDataFactory),
+				new DetailParsers\MessageParser($rawDataFactory),
+				new DetailParsers\NewSituationParser($rawDataFactory),
+				new DetailParsers\SummaryParser($rawDataFactory),
 			);
 		}
 
 		return $this->_detailParsers;
+	}
+
+	private function createRawDataFactory()
+	{
+		return new RawDataFactory();
 	}
 
 	private function convertToRaw($coda_lines)

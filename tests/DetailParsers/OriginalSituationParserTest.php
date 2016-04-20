@@ -2,11 +2,20 @@
 
 namespace Codelicious\Tests\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\Raw\OriginalSituation;
+
 class OriginalSituationParserTest extends \PHPUnit_Framework_TestCase
 {
 	public function testSample1()
 	{
-		$parser = new \Codelicious\Coda\DetailParsers\OriginalSituationParser();
+		$factory = $this->getMock('Codelicious\Coda\Data\RawDataFactory');
+		$factory
+			->expects($this->once())
+			->method('createDataObject')
+			->will($this->returnValue(new OriginalSituation()))
+		;
+
+		$parser = new \Codelicious\Coda\DetailParsers\OriginalSituationParser($factory);
 
 		$sample = "10155001548226815 EUR0BE                  0000000004004100241214CODELICIOUS               PROFESSIONAL ACCOUNT               255";
 

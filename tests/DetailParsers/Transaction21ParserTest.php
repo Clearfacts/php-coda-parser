@@ -2,11 +2,20 @@
 
 namespace Codelicious\Tests\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\Raw\Transaction21;
+
 class Transaction21ParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testSample1()
     {
-        $parser = new \Codelicious\Coda\DetailParsers\Transaction21Parser();
+		$factory = $this->getMock('Codelicious\Coda\Data\RawDataFactory');
+		$factory
+			->expects($this->once())
+			->method('createDataObject')
+			->will($this->returnValue(new Transaction21()))
+		;
+
+        $parser = new \Codelicious\Coda\DetailParsers\Transaction21Parser($factory);
 
         $sample = "21000100000001200002835        0000000001767820251214001120000112/4554/46812   813                                 25121421401 0";
 
@@ -32,7 +41,14 @@ class Transaction21ParserTest extends \PHPUnit_Framework_TestCase
 
     public function testSampleWithStructuredMessage()
     {
-        $parser = new \Codelicious\Coda\DetailParsers\Transaction21Parser();
+		$factory = $this->getMock('Codelicious\Coda\Data\RawDataFactory');
+		$factory
+			->expects($this->once())
+			->method('createDataObject')
+			->will($this->returnValue(new Transaction21()))
+		;
+
+        $parser = new \Codelicious\Coda\DetailParsers\Transaction21Parser($factory);
 
         $sample = "21000100000001200002835        0000000002767820251214001120001101112455446812  813                                 25121421401 0";
 

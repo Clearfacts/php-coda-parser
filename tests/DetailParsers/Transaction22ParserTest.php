@@ -2,11 +2,20 @@
 
 namespace Codelicious\Tests\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\Raw\Transaction22;
+
 class Transaction22ParserTest extends \PHPUnit_Framework_TestCase
 {
 	public function testSample1()
 	{
-		$parser = new \Codelicious\Coda\DetailParsers\Transaction22Parser();
+		$factory = $this->getMock('Codelicious\Coda\Data\RawDataFactory');
+		$factory
+			->expects($this->once())
+			->method('createDataObject')
+			->will($this->returnValue(new Transaction22()))
+		;
+
+		$parser = new \Codelicious\Coda\DetailParsers\Transaction22Parser($factory);
 
 		$sample = "2200010000  ANOTHER MESSAGE                                           54875                       GEBCEEBB                   1 0";
 

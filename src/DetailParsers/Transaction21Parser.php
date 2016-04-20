@@ -2,7 +2,7 @@
 
 namespace Codelicious\Coda\DetailParsers;
 
-use \Codelicious\Coda\Data\Raw\Transaction21;
+use Codelicious\Coda\Data\DataFactory;
 
 /**
  * @package Codelicious\Coda
@@ -12,15 +12,28 @@ use \Codelicious\Coda\Data\Raw\Transaction21;
 class Transaction21Parser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param DataFactory $dataFactory
+     */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Parse the given string containing 21 into a Transaction21-object
 	 *
 	 * @param string $coda21_line
-	 * @return Transaction21
+	 * @return \Codelicious\Coda\Data\Raw\Transaction21
 	 */
 	public function parse($coda21_line)
 	{
-		$coda21 = new Transaction21();
-		
+		$coda21 = $this->dataFactory->createDataObject(DataFactory::TRANSACTION21);
+
 		$coda21->sequence_number = codaStr2Data($coda21_line, 2, 4);
 		$coda21->sequence_number_detail = codaStr2Data($coda21_line, 6, 4);
 		$coda21->bank_reference = codaStr2Data($coda21_line, 10, 21);

@@ -2,11 +2,20 @@
 
 namespace Codelicious\Tests\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\Raw\Transaction31;
+
 class Transaction31ParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testSample1()
     {
-        $parser = new \Codelicious\Coda\DetailParsers\Transaction31Parser();
+        $factory = $this->getMock('Codelicious\Coda\Data\RawDataFactory');
+        $factory
+            ->expects($this->once())
+            ->method('createDataObject')
+            ->will($this->returnValue(new Transaction31()))
+        ;
+
+        $parser = new \Codelicious\Coda\DetailParsers\Transaction31Parser($factory);
 
         $sample = "31000100010007500005482        004800001001BVBA.BAKKER PIET                                                                  1 0";
 

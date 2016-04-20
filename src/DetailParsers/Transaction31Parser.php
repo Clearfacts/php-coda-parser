@@ -1,6 +1,7 @@
 <?php
 
 namespace Codelicious\Coda\DetailParsers;
+use Codelicious\Coda\Data\DataFactory;
 
 /**
  * @package Codelicious\Coda
@@ -10,6 +11,19 @@ namespace Codelicious\Coda\DetailParsers;
 class Transaction31Parser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param DataFactory $dataFactory
+	 */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Parse the given string containing 31 into a Transaction31-object
 	 *
 	 * @param string $coda31_line
@@ -17,8 +31,8 @@ class Transaction31Parser implements ParserInterface
 	 */
 	public function parse($coda31_line)
 	{
-		$coda31 = new \Codelicious\Coda\Data\Raw\Transaction31();
-		
+		$coda31 = $this->dataFactory->createDataObject(DataFactory::TRANSACTION31);
+
 		$coda31->sequence_number = trim(substr($coda31_line, 2, 4));
 		$coda31->sequence_number_detail = trim(substr($coda31_line, 6, 4));
 		$coda31->bank_reference = trim(substr($coda31_line, 10, 21));

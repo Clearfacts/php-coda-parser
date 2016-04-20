@@ -2,6 +2,8 @@
 
 namespace Codelicious\Coda\DetailParsers;
 
+use Codelicious\Coda\Data\DataFactory;
+
 /**
  * @package Codelicious\Coda
  * @author Wim Verstuyf (wim.verstuyf@codelicious.be)
@@ -10,6 +12,19 @@ namespace Codelicious\Coda\DetailParsers;
 class MessageParser implements ParserInterface
 {
 	/**
+	 * @var DataFactory
+	 */
+	private $dataFactory;
+
+	/**
+	 * @param DataFactory $dataFactory
+     */
+	public function __construct(DataFactory $dataFactory)
+	{
+		$this->dataFactory = $dataFactory;
+	}
+
+	/**
 	 * Parse the given string containing 4 into a message-object
 	 *
 	 * @param string $coda4_line
@@ -17,8 +32,8 @@ class MessageParser implements ParserInterface
 	 */
 	public function parse($coda4_line)
 	{
-		$coda4 = new \Codelicious\Coda\Data\Raw\Message();
-		
+		$coda4 = $this->dataFactory->createDataObject(DataFactory::MESSAGE);
+
 		$coda4->sequence_number = substr($coda4_line, 2, 4);
 		$coda4->sequence_number_detail = substr($coda4_line, 6, 4);
 		$coda4->content = trim(substr($coda4_line, 32, 80));
