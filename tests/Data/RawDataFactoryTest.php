@@ -25,5 +25,7 @@ class RawDataFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Codelicious\Coda\Data\Raw\Message', get_class($factory->createDataObject(DataFactory::MESSAGE)));
         $this->assertEquals('Codelicious\Coda\Data\Raw\NewSituation', get_class($factory->createDataObject(DataFactory::NEW_SITUATION)));
         $this->assertEquals('Codelicious\Coda\Data\Raw\Summary', get_class($factory->createDataObject(DataFactory::SUMMARY)));
+        $this->assertEquals('Codelicious\Coda\Data\Raw\Statement', get_class($factory->createDataObject(DataFactory::STATEMENT)));
+        $this->assertEquals('Codelicious\Coda\Data\Raw\Transaction', get_class($factory->createDataObject(DataFactory::TRANSACTION  )));
     }
 }

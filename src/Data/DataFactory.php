@@ -18,6 +18,8 @@ interface DataFactory
     const TRANSACTION22 = 'transaction22';
     const TRANSACTION33 = 'transaction33';
     const IDENTIFICATION = 'identification';
+    const STATEMENT = 'statement';
+    const TRANSACTION = 'transaction';
 
     /**
      * @param string $dataObject

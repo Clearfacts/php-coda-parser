@@ -2,6 +2,7 @@
 
 namespace Codelicious\Coda;
 
+use Codelicious\Coda\Data\DataFactory;
 use Codelicious\Coda\Data\Raw;
 use Codelicious\Coda\Data\RawDataFactory;
 use Codelicious\Coda\DetailParsers;
@@ -130,6 +131,7 @@ class Parser
 
 	private function convertToRaw($coda_lines)
 	{
+		$dataFactory = $this->createRawDataFactory();
 		$statements_list = array();
 
 		$current_account_transaction = NULL;
@@ -138,7 +140,7 @@ class Parser
 			if ($coda_line->record_code == "0") {
 				if ($current_account_transaction)
 					array_push($statements_list, $current_account_transaction);
-				$current_account_transaction = new Raw\Statement();
+				$current_account_transaction = $dataFactory->createDataObject(DataFactory::STATEMENT);
 				$current_transaction_sequence_number = NULL;
 				$current_account_transaction->identification = $coda_line;
 			}
@@ -159,7 +161,7 @@ class Parser
 				if ($trans_idx < 0 || $current_transaction_sequence_number != $coda_line->sequence_number) {
 					$trans_idx += 1;
 					$current_transaction_sequence_number = $coda_line->sequence_number;
-					array_push($current_account_transaction->transactions, new Raw\Transaction());
+					array_push($current_account_transaction->transactions, $dataFactory->createDataObject(DataFactory::TRANSACTION));
 				}
 				$current_account_transaction->transactions[$trans_idx]->{'line'.$coda_line->record_code.$coda_line->article_code} = $coda_line;
 			}

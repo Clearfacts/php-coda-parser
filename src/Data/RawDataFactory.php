@@ -5,7 +5,9 @@ use Codelicious\Coda\Data\Raw\Identification;
 use Codelicious\Coda\Data\Raw\Message;
 use Codelicious\Coda\Data\Raw\NewSituation;
 use Codelicious\Coda\Data\Raw\OriginalSituation;
+use Codelicious\Coda\Data\Raw\Statement;
 use Codelicious\Coda\Data\Raw\Summary;
+use Codelicious\Coda\Data\Raw\Transaction;
 use Codelicious\Coda\Data\Raw\Transaction21;
 use Codelicious\Coda\Data\Raw\Transaction22;
 use Codelicious\Coda\Data\Raw\Transaction23;
@@ -47,6 +49,10 @@ class RawDataFactory implements DataFactory
                 return new NewSituation();
             case DataFactory::SUMMARY:
                 return new Summary();
+            case DataFactory::STATEMENT:
+                return new Statement();
+            case DataFactory::TRANSACTION:
+                return new Transaction();
         }
     }
 }
