@@ -124,7 +124,7 @@ class Parser
 		return $this->_detailParsers;
 	}
 
-	private function createRawDataFactory()
+	protected function createRawDataFactory()
 	{
 		return new RawDataFactory();
 	}
