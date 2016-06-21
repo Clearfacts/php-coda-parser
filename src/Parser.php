@@ -159,7 +159,7 @@ class Parser
 			elseif ($coda_line->record_code == "2" || $coda_line->record_code == "3") {
 				$trans_idx = count($current_account_transaction->transactions) - 1;
 			}
-			if ($trans_idx < 0 || $current_transaction_sequence_number != $coda_line->sequence_number) {
+			if (isset($trans_idx) && ($trans_idx < 0 || $current_transaction_sequence_number != $coda_line->sequence_number)) {
 				$trans_idx += 1;
 				$current_transaction_sequence_number = $coda_line->sequence_number;
 				array_push($current_account_transaction->transactions, $dataFactory->createDataObject(DataFactory::TRANSACTION));
