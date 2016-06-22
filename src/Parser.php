@@ -158,19 +158,14 @@ class Parser
 			}
 			elseif ($coda_line->record_code == "2" || $coda_line->record_code == "3") {
 				$trans_idx = count($current_account_transaction->transactions) - 1;
-			}
-
-			if (isset($trans_idx) && ($trans_idx < 0)) {
-				$trans_idx+=1;
-			}
-
-			if ($current_transaction_sequence_number != $coda_line->sequence_number) {
-				$current_transaction_sequence_number = $coda_line->sequence_number;
-				array_push($current_account_transaction->transactions, $dataFactory->createDataObject(DataFactory::TRANSACTION));
-			}
-
-			if (! isset($current_account_transaction->transactions[$trans_idx]->{'line'.$coda_line->record_code.$coda_line->article_code})) {
-				$current_account_transaction->transactions[$trans_idx]->{'line'.$coda_line->record_code.$coda_line->article_code} = $coda_line;
+				if ($trans_idx < 0 || $current_transaction_sequence_number != $coda_line->sequence_number) {
+					$trans_idx += 1;
+					$current_transaction_sequence_number = $coda_line->sequence_number;
+					array_push($current_account_transaction->transactions, $dataFactory->createDataObject(DataFactory::TRANSACTION));
+				}
+				if (! isset($current_account_transaction->transactions[$trans_idx]->{'line'.$coda_line->record_code.$coda_line->article_code})) {
+					$current_account_transaction->transactions[$trans_idx]->{'line' . $coda_line->record_code . $coda_line->article_code} = $coda_line;
+				}
 			}
 		}
 
