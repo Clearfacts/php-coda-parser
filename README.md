@@ -77,3 +77,8 @@ Properties that are not supplied will be `null`.
     *   `amount` Amount of the transaction. Up to 3 decimals. A negative number for credit transactions.
     *   `message` Message of the transaction
     *   `structured_message` Structured messages of the transaction (if available)
+
+## Technical debt links
+
+[Barometer IT](https://wolterskluwer.barometerit.com/b/system/041800002496)
+[SonarQube Project](https://sonarqube.cloud-dev.wolterskluwer.eu//dashboard?id=clearfacts%3Aphp-coda-parser)
